@@ -71,7 +71,7 @@ public class MenuCreator {
             String blockName = WordUtils.capitalize(block.toLowerCase().replace("_", " "));
             int data = playerData.getInt(block.toLowerCase());
             double unrounded = (double) (data*100)/total;
-            double rounded = Math.round(unrounded*100)/100D;
+            double rounded = Math.round(unrounded*1000)/1000D;
             itemlore.add("§1" + blockName + "§f: §c" + data + " (" + rounded + "%)");
         }
         headMeta.setLore(itemlore);
