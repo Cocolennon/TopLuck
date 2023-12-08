@@ -8,3 +8,6 @@ commands:
     description: Opens the TopLuck menu
     aliases:
       - tl
+permissions:
+  topluck.open:
+    description: Allows the user to open the Top Luck menu
