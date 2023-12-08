@@ -7,7 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class PlayerHead {
-    private static PlayerHead instance = new PlayerHead();
+    private final static PlayerHead instance = new PlayerHead();
 
     public final ItemStack returnHead(Player p) {
         ItemStack head = getHead(p);

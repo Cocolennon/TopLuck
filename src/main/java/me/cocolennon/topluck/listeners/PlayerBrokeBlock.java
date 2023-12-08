@@ -2,7 +2,6 @@ package me.cocolennon.topluck.listeners;
 
 import me.cocolennon.topluck.Main;
 import me.cocolennon.topluck.util.PlayerData;
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,7 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import java.util.List;
 
 public class PlayerBrokeBlock implements Listener {
-    private Main mainInstance = Main.getInstance();
+    private final Main mainInstance = Main.getInstance();
 
     @EventHandler
     public void onBlockBroken(BlockBreakEvent event) {

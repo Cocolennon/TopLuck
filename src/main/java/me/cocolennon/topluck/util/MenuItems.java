@@ -8,7 +8,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class MenuItems {
-    private static MenuItems instance = new MenuItems();
+    private final static MenuItems instance = new MenuItems();
 
     public ItemStack getItem(Material material, String newName, String localizedName){
         ItemStack it = new ItemStack(material, 1);
