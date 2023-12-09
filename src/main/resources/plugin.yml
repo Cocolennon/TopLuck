@@ -13,3 +13,5 @@ commands:
 permissions:
   topluck.open:
     description: Allows the user to open the Top Luck menu
+  topluck.info:
+    description: Allows the user to see the plugin's info
