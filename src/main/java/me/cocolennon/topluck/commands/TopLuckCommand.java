@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TopLuckCommand implements TabExecutor {
-    private static final List<String> autoComplete = Arrays.asList("info", "menu");
+    private static final List<String> autoComplete = Arrays.asList("info", "menu", "reload");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -25,6 +25,7 @@ public class TopLuckCommand implements TabExecutor {
         return switch (args[0]) {
             case "menu" -> openMenu(sender);
             case "info" -> sendInfo(sender);
+            case "reload" -> reloadConfig(sender);
             default -> openMenu(sender);
         };
     }
@@ -64,6 +65,17 @@ public class TopLuckCommand implements TabExecutor {
         info.add("§c§l=========================");
 
         info.forEach(sender::sendMessage);
+        return true;
+    }
+
+    private boolean reloadConfig(CommandSender sender) {
+        if(!sender.hasPermission("topluck.reload")) {
+            sender.sendMessage("§a[Top Luck] §cYou can't do that!");
+            return false;
+        }
+
+        Main.getInstance().reloadConfig();
+        sender.sendMessage("§a[Top Luck] §dConfiguration reloaded!");
         return true;
     }
 }

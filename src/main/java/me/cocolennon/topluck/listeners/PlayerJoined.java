@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerJoined implements Listener {
     @EventHandler
     public void PlayerJoin(PlayerJoinEvent event) {
+        Main.getInstance().checkVersion();
         Player player = event.getPlayer();
         if(!player.isOp()) return;
         if(Main.getInstance().getUsingOldVersion()) {
