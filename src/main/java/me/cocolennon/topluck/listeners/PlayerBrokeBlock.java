@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 public class PlayerBrokeBlock implements Listener {
     private final Main mainInstance = Main.getInstance();
