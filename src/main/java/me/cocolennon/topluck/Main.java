@@ -3,6 +3,7 @@ package me.cocolennon.topluck;
 import me.cocolennon.topluck.commands.TopLuckCommand;
 import me.cocolennon.topluck.listeners.InventoryClick;
 import me.cocolennon.topluck.listeners.PlayerBrokeBlock;
+import me.cocolennon.topluck.util.TopLuckPlaceholders;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +20,7 @@ public class Main extends JavaPlugin {
         setUpConfig();
         registerCommands();
         registerListeners();
+        new TopLuckPlaceholders().register();
         getLogger().info("Plugin enabled!");
     }
 
@@ -28,7 +30,7 @@ public class Main extends JavaPlugin {
         blocks.add("DIAMOND_ORE");
         blocks.add("DEEPSLATE_DIAMOND_ORE");
         config.addDefault("blocks-to-check", blocks);
-        config.options().setHeader(List.of("blocks-to-check: The blocks which will be checked when the menu is opened"));
+        config.options().header("blocks-to-check: The blocks which will be checked when the menu is opened");
         config.options().copyDefaults(true);
         saveConfig();
     }
