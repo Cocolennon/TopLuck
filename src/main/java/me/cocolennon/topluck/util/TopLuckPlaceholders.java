@@ -2,7 +2,6 @@ package me.cocolennon.topluck.util;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.cocolennon.topluck.Main;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
