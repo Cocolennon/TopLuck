@@ -23,7 +23,7 @@ public class PlayerHead {
         SkullMeta skull = (SkullMeta) item.getItemMeta();
         assert skull != null;
         skull.setDisplayName(player.getName());
-        skull.setOwnerProfile(player.getPlayerProfile());
+        skull.setOwningPlayer(player);
         item.setItemMeta(skull);
         return item;
     }

@@ -67,13 +67,18 @@ public class MenuCreator {
         ArrayList<String> itemlore = new ArrayList<>();
         int total = playerData.getInt("totalBlocksMined");
         itemlore.add("§1Total Blocks Mined: §c" + total);
+        int totalOreMined = 0;
         for(String block : config.getStringList("blocks-to-check")) {
             String blockName = WordUtils.capitalize(block.toLowerCase().replace("_", " "));
             int data = playerData.getInt(block.toLowerCase());
+            totalOreMined += data;
             double unrounded = (double) (data*100)/total;
             double rounded = Math.round(unrounded*1000)/1000D;
             itemlore.add("§1" + blockName + "§f: §c" + data + " (" + rounded + "%)");
         }
+        double unrounded = (double) (totalOreMined*100)/total;
+        double rounded = Math.round(unrounded*1000)/1000D;
+        itemlore.add(1, "§1Total Ore Mined: §c" + totalOreMined + " (" + rounded + "%)");
         headMeta.setLore(itemlore);
         playerHead.setItemMeta(headMeta);
         return playerHead;
