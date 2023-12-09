@@ -47,8 +47,9 @@ public class Main extends JavaPlugin {
         blocks.add("ANCIENT_DEBRIS");
         blocks.add("DIAMOND_ORE");
         blocks.add("DEEPSLATE_DIAMOND_ORE");
+        config.addDefault("use-player-heads-in-menu", true);
         config.addDefault("blocks-to-check", blocks);
-        config.options().header("blocks-to-check: The blocks which will be checked when the menu is opened");
+        config.options().header("use-player-heads-in-menu: Use player heads or normal heads in the menu\n# blocks-to-check: The blocks which will be checked when the menu is opened");
         config.options().copyDefaults(true);
         saveConfig();
     }

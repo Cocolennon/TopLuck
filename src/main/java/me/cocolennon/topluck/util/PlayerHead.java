@@ -1,5 +1,6 @@
 package me.cocolennon.topluck.util;
 
+import me.cocolennon.topluck.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,7 +24,7 @@ public class PlayerHead {
         SkullMeta skull = (SkullMeta) item.getItemMeta();
         assert skull != null;
         skull.setDisplayName(player.getName());
-        skull.setOwningPlayer(player);
+        if(Main.getInstance().getConfig().getBoolean("use-player-heads-in-menu")) skull.setOwningPlayer(player);
         item.setItemMeta(skull);
         return item;
     }
