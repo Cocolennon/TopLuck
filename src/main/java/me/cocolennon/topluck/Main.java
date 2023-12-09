@@ -4,6 +4,7 @@ import me.cocolennon.topluck.commands.TopLuckCommand;
 import me.cocolennon.topluck.listeners.InventoryClick;
 import me.cocolennon.topluck.listeners.PlayerBrokeBlock;
 import me.cocolennon.topluck.listeners.PlayerJoined;
+import me.cocolennon.topluck.listeners.PlayerPlaceBlock;
 import me.cocolennon.topluck.util.TopLuckPlaceholders;
 import me.cocolennon.topluck.util.UpdateChecker;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -60,6 +61,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerBrokeBlock(), instance);
         getServer().getPluginManager().registerEvents(new InventoryClick(), instance);
         getServer().getPluginManager().registerEvents(new PlayerJoined(), instance);
+        getServer().getPluginManager().registerEvents(new PlayerPlaceBlock(), instance);
     }
 
     public String getVersion() { return version; }

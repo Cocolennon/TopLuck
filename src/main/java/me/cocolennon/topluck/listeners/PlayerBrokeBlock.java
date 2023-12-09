@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class PlayerBrokeBlock implements Listener {
     private final Main mainInstance = Main.getInstance();
@@ -18,6 +19,7 @@ public class PlayerBrokeBlock implements Listener {
     public void onBlockBroken(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
+        if(block.hasMetadata("player-placed") && block.getMetadata("player-placed").get(0).asBoolean()) return;
         FileConfiguration config = mainInstance.getConfig();
 
         List<String> blocksToCheck = config.getStringList("blocks-to-check");
