@@ -27,7 +27,7 @@ public class Main extends JavaPlugin {
         setUpConfig();
         registerCommands();
         registerListeners();
-        new TopLuckPlaceholders().register();
+        checkAndLoadPlaceholders();
         getLogger().info("Plugin enabled!");
     }
 
@@ -66,6 +66,12 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryClick(), instance);
         getServer().getPluginManager().registerEvents(new PlayerJoined(), instance);
         getServer().getPluginManager().registerEvents(new PlayerPlaceBlock(), instance);
+    }
+
+    private void checkAndLoadPlaceholders() {
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new TopLuckPlaceholders().register();
+        }
     }
 
     public String getVersion() { return version; }
