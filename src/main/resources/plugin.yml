@@ -17,3 +17,9 @@ permissions:
     description: Allows the user to see the plugin's info
   topluck.reload:
     description: Allows the user to reload the configuration
+  topluck.invsee:
+    description: Allows the user to open someone else's inventory
+  topluck.warn.public:
+    description: Allows the user to warn someone publicly
+  topluck.warn.private:
+    description: Allows the user to warn someone privately
