@@ -31,10 +31,9 @@ public class MenuItems {
         return it;
     }
 
-    public void fillEmpty(Inventory inv, ItemStack item){
-        for(int i = 18; i < inv.getSize(); i++){
-            if(inv.getItem(i) != null) break;
-            inv.setItem(i, item);
+    public void fillEmpty(Inventory inv, int start, ItemStack item){
+        for(int i = start; i < inv.getSize(); i++){
+            if(inv.getItem(i) == null) inv.setItem(i, item);
         }
     }
 
