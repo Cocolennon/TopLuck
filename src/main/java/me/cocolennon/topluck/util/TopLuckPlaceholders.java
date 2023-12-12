@@ -28,6 +28,10 @@ public class TopLuckPlaceholders extends PlaceholderExpansion {
         FileConfiguration config = Main.getInstance().getConfig();
         FileConfiguration playerData = PlayerData.getInstance().getPlayerData(player);
 
+        if(params.equalsIgnoreCase("warns")) {
+            return String.valueOf(playerData.getInt("warns"));
+        }
+
         if(params.equalsIgnoreCase("total_blocks_mined")) {
             return String.valueOf(playerData.getInt("totalBlocksMined"));
         }
