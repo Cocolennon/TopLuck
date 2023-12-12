@@ -48,8 +48,11 @@ public class Main extends JavaPlugin {
         blocks.add("DIAMOND_ORE");
         blocks.add("DEEPSLATE_DIAMOND_ORE");
         config.addDefault("use-player-heads-in-menu", true);
+        config.addDefault("hide-plugin-name", false);
+        config.addDefault("warn-message-public", "%s has been warned by %s!");
+        config.addDefault("warn-message-private", "You have been warned by %s!");
         config.addDefault("blocks-to-check", blocks);
-        config.options().header("use-player-heads-in-menu: Use player heads or normal heads in the menu\n# blocks-to-check: The blocks which will be checked when the menu is opened");
+        config.options().header("use-player-heads-in-menu: Use player heads or normal heads in the menu\n# blocks-to-check: The blocks which will be checked when the menu is opened\n# hide-plugin-name: Hides the plugin's name in every message (errors, successes) and menus\n# warn-message-public: The warn message sent in the chat when someone is publicly warned\n# warn-message-private: The warn message sent to a player when they are privately warned");
         config.options().copyDefaults(true);
         saveConfig();
     }
