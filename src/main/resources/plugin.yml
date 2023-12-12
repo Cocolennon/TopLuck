@@ -19,6 +19,8 @@ permissions:
     description: Allows the user to reload the configuration
   topluck.invsee:
     description: Allows the user to open someone else's inventory
+  topluck.invsee.move:
+    description: Allows the user to move items in someone else's inventory
   topluck.warn.public:
     description: Allows the user to warn someone publicly
   topluck.warn.private:
