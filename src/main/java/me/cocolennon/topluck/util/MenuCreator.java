@@ -25,7 +25,10 @@ public class MenuCreator {
         int inventorySlots = 18;
 
         for(int pageNumber = 0; pageNumber <= getPagesCount(); pageNumber++) {
-            Inventory newPage = Bukkit.createInventory(null, 27, "§c§lTop Luck §f- §d§lCoco Lennon");
+            Inventory newPage;
+            if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
+                newPage = Bukkit.createInventory(null, 27, "§c§lHidden Name §f- §d§lCoco Lennon"); }
+            else { newPage = Bukkit.createInventory(null, 27, "§c§lTop Luck §f- §d§lCoco Lennon"); }
             List<Player> playersInCurrentPage = new LinkedList<>();
             if(pageNumber == getPagesCount()) inventorySlots = onlinePlayers.size() - playerCount;
             for(int i = 0; i < inventorySlots; i++){
@@ -49,10 +52,23 @@ public class MenuCreator {
                 }
             }
 
-            MenuItems.getInstance().fillEmpty(newPage, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));
+            MenuItems.getInstance().fillEmpty(newPage, 18, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));
             topLuckPages.add(newPage);
         }
         return topLuckPages;
+    }
+
+    public Inventory getOptionsMenu(Player target) {
+        Inventory optionsMenu;
+        if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
+            optionsMenu = Bukkit.createInventory(null, 27, "§a§l" + target.getName() + "§f - §c§lHidden Name"); }
+        else { optionsMenu = Bukkit.createInventory(null, 27, "§a§l" + target.getName() + "§f - §c§lTop Luck"); }
+        optionsMenu.setItem(10, getPlayerHeadWithStats(target));
+        optionsMenu.setItem(12, MenuItems.getInstance().getItem(Material.CHEST, "§c§lInvSee", "invsee_" + target.getName()));
+        optionsMenu.setItem(14, MenuItems.getInstance().getItem(Material.TORCH, "§c§lWarn Publicly", "warn_pb_" + target.getName()));
+        optionsMenu.setItem(16, MenuItems.getInstance().getItem(Material.REDSTONE_TORCH, "§c§lWarn Privately", "warn_pv_" + target.getName()));
+        MenuItems.getInstance().fillEmpty(optionsMenu, 0, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));
+        return optionsMenu;
     }
 
     private int getPagesCount() {
@@ -65,6 +81,8 @@ public class MenuCreator {
         FileConfiguration config = Main.getInstance().getConfig();
         FileConfiguration playerData = PlayerData.getInstance().getPlayerData(player);
         ArrayList<String> itemlore = new ArrayList<>();
+        int warns = playerData.getInt("warns");
+        itemlore.add("§1Warns: §c" + warns);
         int total = playerData.getInt("totalBlocksMined");
         itemlore.add("§1Total Blocks Mined: §c" + total);
         int totalOreMined = 0;
