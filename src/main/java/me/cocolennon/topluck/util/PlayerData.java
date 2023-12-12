@@ -30,6 +30,7 @@ public class PlayerData {
                 for(String block : blocksToCheck) {
                     playerData.set(block.toLowerCase(), 0);
                 }
+                playerData.set("warns", 0);
                 playerData.save(f);
             }catch(IOException exception){
                 exception.printStackTrace();
@@ -52,6 +53,7 @@ public class PlayerData {
                 for(String block : blocksToCheck) {
                     playerData.set(block.toLowerCase(), 0);
                 }
+                playerData.set("warns", 0);
                 playerData.save(f);
             }catch(IOException exception){
                 exception.printStackTrace();
@@ -62,8 +64,8 @@ public class PlayerData {
         playerData.set("totalBlocksMined", totalBlocksMined+1);
 
         if(data != null) {
-            int totalDataMined = playerData.getInt(data.toLowerCase());
-            playerData.set(data.toLowerCase(), totalDataMined + 1);
+            int dataValue = playerData.getInt(data.toLowerCase());
+            playerData.set(data.toLowerCase(), dataValue + 1);
         }
 
         try {
