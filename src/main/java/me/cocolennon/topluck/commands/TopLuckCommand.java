@@ -15,11 +15,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TopLuckCommand implements TabExecutor {
+    private String error;
     private static final List<String> autoComplete = Arrays.asList("info", "menu", "reload");
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return false;
+        if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
+            error = "§a[Hidden Name] §cYou can't do that!"; }
+        else { error = "§a[Top Luck] §cYou can't do that!"; }
 
         if(args.length == 0) return openMenu(sender);
         return switch (args[0]) {
@@ -39,7 +43,7 @@ public class TopLuckCommand implements TabExecutor {
 
     private boolean openMenu(CommandSender sender) {
         if(!sender.hasPermission("topluck.open")) {
-            sender.sendMessage("§a[Top Luck] §cYou can't do that!");
+            sender.sendMessage(error);
             return false;
         }
         List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPages());
@@ -50,7 +54,7 @@ public class TopLuckCommand implements TabExecutor {
 
     private boolean sendInfo(CommandSender sender) {
         if (!sender.hasPermission("topluck.info")) {
-            sender.sendMessage("§a[Top Luck] §cYou can't do that!");
+            sender.sendMessage(error);
             return false;
         }
         List<String> info = new LinkedList<>();
@@ -70,12 +74,16 @@ public class TopLuckCommand implements TabExecutor {
 
     private boolean reloadConfig(CommandSender sender) {
         if(!sender.hasPermission("topluck.reload")) {
-            sender.sendMessage("§a[Top Luck] §cYou can't do that!");
+            sender.sendMessage(error);
             return false;
         }
 
         Main.getInstance().reloadConfig();
-        sender.sendMessage("§a[Top Luck] §dConfiguration reloaded!");
+        String rel;
+        if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
+            rel = "§a[Hidden Name] §dConfiguration reloaded!"; }
+        else { rel = "§a[Top Luck] §dConfiguration reloaded!"; }
+        sender.sendMessage(rel);
         return true;
     }
 }
