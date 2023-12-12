@@ -14,7 +14,7 @@ public class PlayerHead {
         ItemStack head = getHead(p);
         ItemMeta headMeta = head.getItemMeta();
         headMeta.setDisplayName("§a" + p.getName());
-        headMeta.setLocalizedName("playerHead");
+        headMeta.setLocalizedName("playerHead_" + p.getName());
         head.setItemMeta(headMeta);
         return head;
     }
