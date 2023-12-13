@@ -63,8 +63,9 @@ public class MenuCreator {
         if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
             optionsMenu = Bukkit.createInventory(null, 27, "§a§l" + target.getName() + "§f - §c§lHidden Name"); }
         else { optionsMenu = Bukkit.createInventory(null, 27, "§a§l" + target.getName() + "§f - §c§lTop Luck"); }
-        optionsMenu.setItem(10, getPlayerHeadWithStats(target));
-        optionsMenu.setItem(12, MenuItems.getInstance().getItem(Material.CHEST, "§c§lInvSee", "invsee_" + target.getName()));
+        optionsMenu.setItem(9, getPlayerHeadWithStats(target));
+        optionsMenu.setItem(11, MenuItems.getInstance().getItem(Material.CHEST, "§c§lInvSee", "invsee_" + target.getName()));
+        optionsMenu.setItem(12, MenuItems.getInstance().getItem(Material.ENDER_CHEST, "§c§lInvSee (Ender Chest)", "ecsee_" + target.getName()));
         optionsMenu.setItem(14, MenuItems.getInstance().getItem(Material.TORCH, "§c§lWarn Publicly", "warn_pb_" + target.getName()));
         optionsMenu.setItem(16, MenuItems.getInstance().getItem(Material.REDSTONE_TORCH, "§c§lWarn Privately", "warn_pv_" + target.getName()));
         MenuItems.getInstance().fillEmpty(optionsMenu, 0, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));

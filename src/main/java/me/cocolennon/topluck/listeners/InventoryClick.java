@@ -29,7 +29,11 @@ public class InventoryClick implements Listener {
         Player player = (Player) event.getWhoClicked();
         ItemStack current = event.getCurrentItem();
 
-        if(inv.getType() == InventoryType.PLAYER && !player.hasPermission("topluck.invsee.move")) event.setCancelled(true);
+        if(!player.hasPermission("topluck.invsee.move")) {
+            if(inv.getType() == InventoryType.PLAYER || inv.getType() == InventoryType.ENDER_CHEST) {
+                event.setCancelled(true);
+            }
+        }
         if(inv.getItem(0) == null) return;
         if(current == null) return;
         if(!current.hasItemMeta()) return;
@@ -54,6 +58,13 @@ public class InventoryClick implements Listener {
                 }
                 Player target = Bukkit.getPlayer(currentLName.replace("invsee_", ""));
                 player.openInventory(target.getInventory());
+            }else if(currentLName.startsWith("ecsee_")){
+                if(!player.hasPermission("topluck.invsee")) {
+                    player.sendMessage(error);
+                    return;
+                }
+                Player target = Bukkit.getPlayer(currentLName.replace("ecsee_", ""));
+                player.openInventory(target.getEnderChest());
             }else if(currentLName.startsWith("warn_")) {
                 String newLName = currentLName.replace("warn_", "");
                 if(newLName.startsWith("pb_")) {
