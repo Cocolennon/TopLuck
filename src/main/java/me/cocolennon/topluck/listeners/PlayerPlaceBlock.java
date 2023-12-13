@@ -16,6 +16,5 @@ public class PlayerPlaceBlock implements Listener {
         Block block = event.getBlock();
         BlockState blockState = block.getState();
         blockState.setMetadata("player-placed", new FixedMetadataValue(Main.getInstance(), true));
-        //block.setMetadata("player-placed", new FixedMetadataValue(Main.getInstance(), true));
     }
 }
