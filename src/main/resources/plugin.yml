@@ -1,6 +1,6 @@
 name: TopLuck
 main: me.cocolennon.topluck.Main
-version: 1.0.3
+version: 1.0.4
 author: Cocolennon
 api-version: 1.17
 softdepend:
