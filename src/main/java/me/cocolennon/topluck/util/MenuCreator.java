@@ -16,6 +16,7 @@ import java.util.List;
 
 public class MenuCreator {
     private final static MenuCreator instance = new MenuCreator();
+    private final String topluckColor = Main.getInstance().getConfig().getString("plugin-name-color");
 
     public List<Inventory> getPages() {
         List<Inventory> topLuckPages = new LinkedList<>();
@@ -27,8 +28,8 @@ public class MenuCreator {
         for(int pageNumber = 0; pageNumber <= getPagesCount(); pageNumber++) {
             Inventory newPage;
             if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
-                newPage = Bukkit.createInventory(null, 27, "§c§lHidden Name §f- §d§lCoco Lennon"); }
-            else { newPage = Bukkit.createInventory(null, 27, "§c§lTop Luck §f- §d§lCoco Lennon"); }
+                newPage = Bukkit.createInventory(null, 27, topluckColor + "§lHidden Name §f- §d§lCoco Lennon"); }
+            else { newPage = Bukkit.createInventory(null, 27, topluckColor + "§lTop Luck §f- §d§lCoco Lennon"); }
             List<Player> playersInCurrentPage = new LinkedList<>();
             if(pageNumber == getPagesCount()) inventorySlots = onlinePlayers.size() - playerCount;
             for(int i = 0; i < inventorySlots; i++){

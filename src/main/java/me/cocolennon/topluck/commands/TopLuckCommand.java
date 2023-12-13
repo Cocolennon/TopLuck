@@ -15,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TopLuckCommand implements TabExecutor {
+    private final String topluckColor = Main.getInstance().getConfig().getString("plugin-name-color");
+    private final String successColor = Main.getInstance().getConfig().getString("messages-success-color");
+    private final String errorColor = Main.getInstance().getConfig().getString("messages-error-color");
     private String error;
     private static final List<String> autoComplete = Arrays.asList("info", "menu", "reload");
 
@@ -22,8 +25,8 @@ public class TopLuckCommand implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return false;
         if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
-            error = "§a[Hidden Name] §cYou can't do that!"; }
-        else { error = "§a[Top Luck] §cYou can't do that!"; }
+            error = topluckColor + "[Hidden Name]" + errorColor + "You can't do that!"; }
+        else { error = topluckColor + "[Top Luck]" + errorColor + "You can't do that!"; }
 
         if(args.length == 0) return openMenu(sender);
         return switch (args[0]) {
@@ -58,15 +61,15 @@ public class TopLuckCommand implements TabExecutor {
             return false;
         }
         List<String> info = new LinkedList<>();
-        info.add("§c§l=========================");
-        info.add("§a§lTop Luck " + Main.getInstance().getVersion());
+        info.add(errorColor + "§l=========================");
+        info.add(topluckColor + "§lTop Luck " + Main.getInstance().getVersion());
         if(Main.getInstance().getUsingOldVersion()){
-            info.add("§aAn update is available!");
+            info.add(topluckColor + "An update is available!");
         }else{
-            info.add("§aYou're using the latest version");
+            info.add(topluckColor + "You're using the latest version");
         }
-        info.add("§aMade with §c❤ §aby §d§lCoco Lennon");
-        info.add("§c§l=========================");
+        info.add(topluckColor + "Made with §c❤" + topluckColor + " by §d§lCoco Lennon");
+        info.add(errorColor + "§l=========================");
 
         info.forEach(sender::sendMessage);
         return true;
@@ -81,8 +84,8 @@ public class TopLuckCommand implements TabExecutor {
         Main.getInstance().reloadConfig();
         String rel;
         if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
-            rel = "§a[Hidden Name] §dConfiguration reloaded!"; }
-        else { rel = "§a[Top Luck] §dConfiguration reloaded!"; }
+            rel = topluckColor + "[Hidden Name] " + successColor + "Configuration reloaded!"; }
+        else { rel = topluckColor + "[Top Luck] " + successColor + "Configuration reloaded!"; }
         sender.sendMessage(rel);
         return true;
     }

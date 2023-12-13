@@ -18,13 +18,17 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class InventoryClick implements Listener {
+    private final String topluckColor = Main.getInstance().getConfig().getString("plugin-name-color");
+    private final String successColor = Main.getInstance().getConfig().getString("messages-success-color");
+    private final String errorColor = Main.getInstance().getConfig().getString("messages-error-color");
+
     @EventHandler
     public void InventoryClicked(InventoryClickEvent event) {
         String error;
         String pluginName;
         if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
-            error = "§a[Hidden Name] §cYou can't do that!"; pluginName = "Hidden Name"; }
-        else { error = "§a[Top Luck] §cYou can't do that!"; pluginName = "Top Luck"; }
+            error = topluckColor + "[Hidden Name]" + errorColor + "You can't do that!"; pluginName = "Hidden Name"; }
+        else { error = topluckColor + "[Top Luck]" + errorColor + "You can't do that!"; pluginName = "Top Luck"; }
         Inventory inv = event.getInventory();
         Player player = (Player) event.getWhoClicked();
         ItemStack current = event.getCurrentItem();
@@ -74,8 +78,8 @@ public class InventoryClick implements Listener {
                     }
                     Player target = Bukkit.getPlayer(newLName.replace("pb_", ""));
                     PlayerData.getInstance().addPlayerData(target, "warns");
-                    Bukkit.broadcastMessage(String.format("§a[" + pluginName + "] §c" + Main.getInstance().getConfig().getString("warn-message-public"), target.getName(), player.getName()));
-                    player.sendMessage("§a[" + pluginName + "] §dYou have publicly warned " + target.getName() + "!");
+                    Bukkit.broadcastMessage(String.format("topluckColor + [" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-public"), target.getName(), player.getName()));
+                    player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor + "You have publicly warned " + target.getName() + "!");
                 }else if(newLName.startsWith("pv_")) {
                     if(!player.hasPermission("topluck.warn.private")) {
                         player.sendMessage(error);
@@ -83,8 +87,8 @@ public class InventoryClick implements Listener {
                     }
                     Player target = Bukkit.getPlayer(newLName.replace("pv_", ""));
                     PlayerData.getInstance().addPlayerData(target, "warns");
-                    target.sendMessage(String.format("§a[" + pluginName + "] §c" + Main.getInstance().getConfig().getString("warn-message-private"), player.getName()));
-                    player.sendMessage("§a[" + pluginName + "] §dYou have privately warned " + target.getName() + "!");
+                    target.sendMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-private"), player.getName()));
+                    player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor +"§dYou have privately warned " + target.getName() + "!");
                 }
             }
         }
