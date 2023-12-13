@@ -51,8 +51,11 @@ public class Main extends JavaPlugin {
         config.addDefault("hide-plugin-name", false);
         config.addDefault("warn-message-public", "%s has been warned by %s!");
         config.addDefault("warn-message-private", "You have been warned by %s!");
+        config.addDefault("plugin-name-color", "§a");
+        config.addDefault("messages-success-color", "§d");
+        config.addDefault("messages-error-color", "§c");
         config.addDefault("blocks-to-check", blocks);
-        config.options().header("use-player-heads-in-menu: Use player heads or normal heads in the menu\n# blocks-to-check: The blocks which will be checked when the menu is opened\n# hide-plugin-name: Hides the plugin's name in every message (errors, successes) and menus\n# warn-message-public: The warn message sent in the chat when someone is publicly warned\n# warn-message-private: The warn message sent to a player when they are privately warned");
+        config.options().header("use-player-heads-in-menu: Use player heads or normal heads in the menu\n# blocks-to-check: The blocks which will be checked when the menu is opened\n# hide-plugin-name: Hides the plugin's name in every message (errors, successes) and menus\n# warn-message-public: The warn message sent in the chat when someone is publicly warned\n# warn-message-private: The warn message sent to a player when they are privately warned\n# plugin-name-color: The color the plugin's name will have in the chat whenever it sends a message\n# messages-success-color: The color the plugin's success message will have whenever it is sent\n# messages-error-color: The color the plugin's error message will have whenever it is sent\n");
         config.options().copyDefaults(true);
         saveConfig();
     }
