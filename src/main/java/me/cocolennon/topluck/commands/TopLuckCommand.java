@@ -62,7 +62,9 @@ public class TopLuckCommand implements TabExecutor {
         }
         List<String> info = new LinkedList<>();
         info.add(errorColor + "§l=========================");
-        info.add(topluckColor + "§lTop Luck " + Main.getInstance().getVersion());
+        if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
+            info.add(topluckColor + "§lHidden Name " + Main.getInstance().getVersion()); }
+        else { info.add(topluckColor + "§lTop Luck " + Main.getInstance().getVersion()); }
         if(Main.getInstance().getUsingOldVersion()){
             info.add(topluckColor + "An update is available!");
         }else{
