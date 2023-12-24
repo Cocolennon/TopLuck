@@ -4,6 +4,7 @@ import me.cocolennon.topluck.Main;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,7 +54,53 @@ public class MenuCreator {
                     newPage.setItem(21, MenuItems.getInstance().getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
                 }
             }
+            newPage.setItem(18, MenuItems.getInstance().getItem(Material.RED_STAINED_GLASS_PANE, "§c§lOffline Players", "offlinePlayers"));
+            MenuItems.getInstance().fillEmpty(newPage, 18, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));
+            topLuckPages.add(newPage);
+        }
+        return topLuckPages;
+    }
 
+    public List<Inventory> getPagesOffline() {
+        List<Inventory> topLuckPages = new LinkedList<>();
+        List<OfflinePlayer> offPlayers = Arrays.stream(Bukkit.getOfflinePlayers()).toList();
+        List<OfflinePlayer> offlinePlayers = new LinkedList<>();
+
+        for(OfflinePlayer off : offPlayers) {
+            if(PlayerData.getInstance().hasData(off)) offlinePlayers.add(off);
+        }
+
+        int playerCount = 0;
+        int inventorySlots = 18;
+
+        for(int pageNumber = 0; pageNumber <= getPagesCount(); pageNumber++) {
+            Inventory newPage;
+            if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
+                newPage = Bukkit.createInventory(null, 27, topluckColor + "§lHidden Name §f- §d§lCoco Lennon"); }
+            else { newPage = Bukkit.createInventory(null, 27, topluckColor + "§lTop Luck §f- §d§lCoco Lennon"); }
+            List<OfflinePlayer> playersInCurrentPage = new LinkedList<>();
+            if(pageNumber == getPagesCount()) inventorySlots = offlinePlayers.size() - playerCount;
+            for(int i = 0; i < inventorySlots; i++){
+                playersInCurrentPage.add(offlinePlayers.get(playerCount));
+                playerCount++;
+            }
+            int menuSlot = 0;
+            for (OfflinePlayer player : playersInCurrentPage) {
+                ItemStack playerHead = getPlayerHeadWithStats(player);
+                newPage.setItem(menuSlot, playerHead);
+                menuSlot++;
+            }
+            if(getPagesCount() > 0){
+                if(pageNumber == 0){
+                    newPage.setItem(23, MenuItems.getInstance().getItem(Material.ARROW, "§6§lNext Page", String.valueOf((pageNumber + 1))));
+                }else if(pageNumber == getPagesCount()){
+                    newPage.setItem(21, MenuItems.getInstance().getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
+                }else{
+                    newPage.setItem(23, MenuItems.getInstance().getItem(Material.ARROW, "§6§lNext Page", String.valueOf(pageNumber + 1)));
+                    newPage.setItem(21, MenuItems.getInstance().getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
+                }
+            }
+            newPage.setItem(18, MenuItems.getInstance().getItem(Material.RED_STAINED_GLASS_PANE, "§c§lGo Back", "goBack"));
             MenuItems.getInstance().fillEmpty(newPage, 18, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));
             topLuckPages.add(newPage);
         }
@@ -78,6 +126,33 @@ public class MenuCreator {
     }
 
     private ItemStack getPlayerHeadWithStats(Player player) {
+        ItemStack playerHead = PlayerHead.getInstance().returnHead(player);
+        ItemMeta headMeta = playerHead.getItemMeta();
+        FileConfiguration config = Main.getInstance().getConfig();
+        FileConfiguration playerData = PlayerData.getInstance().getPlayerData(player);
+        ArrayList<String> itemlore = new ArrayList<>();
+        int warns = playerData.getInt("warns");
+        itemlore.add("§1Warns: §c" + warns);
+        int total = playerData.getInt("totalBlocksMined");
+        itemlore.add("§1Total Blocks Mined: §c" + total);
+        int totalOreMined = 0;
+        for(String block : config.getStringList("blocks-to-check")) {
+            String blockName = WordUtils.capitalize(block.toLowerCase().replace("_", " "));
+            int data = playerData.getInt(block.toLowerCase());
+            totalOreMined += data;
+            double unrounded = (double) (data*100)/total;
+            double rounded = Math.round(unrounded*1000)/1000D;
+            itemlore.add("§1" + blockName + "§f: §c" + data + " (" + rounded + "%)");
+        }
+        double unrounded = (double) (totalOreMined*100)/total;
+        double rounded = Math.round(unrounded*1000)/1000D;
+        itemlore.add(1, "§1Total Ore Mined: §c" + totalOreMined + " (" + rounded + "%)");
+        headMeta.setLore(itemlore);
+        playerHead.setItemMeta(headMeta);
+        return playerHead;
+    }
+
+    private ItemStack getPlayerHeadWithStats(OfflinePlayer player) {
         ItemStack playerHead = PlayerHead.getInstance().returnHead(player);
         ItemMeta headMeta = playerHead.getItemMeta();
         FileConfiguration config = Main.getInstance().getConfig();

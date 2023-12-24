@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class InventoryClick implements Listener {
@@ -54,6 +56,12 @@ public class InventoryClick implements Listener {
         }else if(currentLName.startsWith("playerHead") && inv.getItem(0).getItemMeta().getLocalizedName().startsWith("playerHead")){
             Player target = Bukkit.getPlayer(currentLName.replace("playerHead_", ""));
             player.openInventory(MenuCreator.getInstance().getOptionsMenu(target));
+        }else if(currentLName.equals("offlinePlayers")){
+            List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOffline());
+            player.openInventory(inventories.get(0));
+        }else if(currentLName.equals("goBack")){
+            List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOnline());
+            player.openInventory(inventories.get(0));
         }else if(inv.getItem(0).getItemMeta().getLocalizedName().equals("filler")){
             if(currentLName.startsWith("invsee_")) {
                 if(!player.hasPermission("topluck.invsee")) {
