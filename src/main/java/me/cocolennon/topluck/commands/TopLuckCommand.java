@@ -49,7 +49,7 @@ public class TopLuckCommand implements TabExecutor {
             sender.sendMessage(error);
             return false;
         }
-        List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPages());
+        List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOnline());
         Player player = (Player) sender;
         player.openInventory(inventories.get(0));
         return true;

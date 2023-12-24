@@ -49,7 +49,7 @@ public class InventoryClick implements Listener {
 
         if(StringUtils.isNumeric(currentLName)) {
             if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page")){
-                player.openInventory(MenuCreator.getInstance().getPages().get(Integer.parseInt(currentLName)));
+                player.openInventory(MenuCreator.getInstance().getPagesOnline().get(Integer.parseInt(currentLName)));
             }
         }else if(currentLName.startsWith("playerHead") && inv.getItem(0).getItemMeta().getLocalizedName().startsWith("playerHead")){
             Player target = Bukkit.getPlayer(currentLName.replace("playerHead_", ""));

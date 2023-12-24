@@ -18,7 +18,7 @@ public class MenuCreator {
     private final static MenuCreator instance = new MenuCreator();
     private final String topluckColor = Main.getInstance().getConfig().getString("plugin-name-color");
 
-    public List<Inventory> getPages() {
+    public List<Inventory> getPagesOnline() {
         List<Inventory> topLuckPages = new LinkedList<>();
         List<Player> onlinePlayers = new LinkedList<>(Bukkit.getOnlinePlayers());
 
