@@ -2,6 +2,7 @@ package me.cocolennon.topluck.util;
 
 import me.cocolennon.topluck.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -73,6 +74,20 @@ public class PlayerData {
         }catch(IOException exception){
             exception.printStackTrace();
         }
+    }
+
+    public boolean hasData(Player player) {
+        UUID uuid = player.getUniqueId();
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TopLuck").getDataFolder(), File.separator + "playerdata");
+        File f = new File(userdata, File.separator + uuid + ".yml");
+        return f.exists();
+    }
+
+    public boolean hasData(OfflinePlayer player) {
+        UUID uuid = player.getUniqueId();
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TopLuck").getDataFolder(), File.separator + "playerdata");
+        File f = new File(userdata, File.separator + uuid + ".yml");
+        return f.exists();
     }
 
     public static PlayerData getInstance() {
