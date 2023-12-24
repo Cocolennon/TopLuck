@@ -78,7 +78,7 @@ public class InventoryClick implements Listener {
                     }
                     Player target = Bukkit.getPlayer(newLName.replace("pb_", ""));
                     PlayerData.getInstance().addPlayerData(target, "warns");
-                    Bukkit.broadcastMessage(String.format("topluckColor + [" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-public"), target.getName(), player.getName()));
+                    Bukkit.broadcastMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-public"), target.getName(), player.getName()));
                     player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor + "You have publicly warned " + target.getName() + "!");
                 }else if(newLName.startsWith("pv_")) {
                     if(!player.hasPermission("topluck.warn.private")) {
