@@ -41,6 +41,29 @@ public class PlayerData {
         return playerData;
     }
 
+    public FileConfiguration getPlayerData(OfflinePlayer player) {
+        UUID uuid = player.getUniqueId();
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TopLuck").getDataFolder(), File.separator + "playerdata");
+        File f = new File(userdata, File.separator + uuid + ".yml");
+        FileConfiguration playerData = YamlConfiguration.loadConfiguration(f);
+
+        if(!f.exists()) {
+            try {
+                playerData.set("totalBlocksMined", 0);
+                List<String> blocksToCheck = config.getStringList("blocks-to-check");
+                for(String block : blocksToCheck) {
+                    playerData.set(block.toLowerCase(), 0);
+                }
+                playerData.set("warns", 0);
+                playerData.save(f);
+            }catch(IOException exception){
+                exception.printStackTrace();
+            }
+        }
+
+        return playerData;
+    }
+
     public void addPlayerData(Player player, @Nullable String data) {
         UUID uuid = player.getUniqueId();
         File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TopLuck").getDataFolder(), File.separator + "playerdata");
