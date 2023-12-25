@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,6 +112,11 @@ public class PlayerData {
         File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TopLuck").getDataFolder(), File.separator + "playerdata");
         File f = new File(userdata, File.separator + uuid + ".yml");
         return f.exists();
+    }
+
+    public List<File> getAllDataFiles() {
+        File userdata = new File(Bukkit.getServer().getPluginManager().getPlugin("TopLuck").getDataFolder(), File.separator + "playerdata");
+        return Arrays.stream(userdata.listFiles()).toList();
     }
 
     public static PlayerData getInstance() {

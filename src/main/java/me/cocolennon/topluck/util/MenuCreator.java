@@ -1,5 +1,6 @@
 package me.cocolennon.topluck.util;
 
+import com.google.common.io.Files;
 import me.cocolennon.topluck.Main;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -11,10 +12,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import javax.annotation.Nullable;
+import java.io.File;
+import java.util.*;
 
 public class MenuCreator {
     private final static MenuCreator instance = new MenuCreator();
@@ -27,13 +27,13 @@ public class MenuCreator {
         int playerCount = 0;
         int inventorySlots = 18;
 
-        for(int pageNumber = 0; pageNumber <= getPagesCount(); pageNumber++) {
+        for(int pageNumber = 0; pageNumber <= getPagesCount(true, 0); pageNumber++) {
             Inventory newPage;
             if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
                 newPage = Bukkit.createInventory(null, 27, topluckColor + "§lHidden Name §f- §d§lCoco Lennon"); }
             else { newPage = Bukkit.createInventory(null, 27, topluckColor + "§lTop Luck §f- §d§lCoco Lennon"); }
             List<Player> playersInCurrentPage = new LinkedList<>();
-            if(pageNumber == getPagesCount()) inventorySlots = onlinePlayers.size() - playerCount;
+            if(pageNumber == getPagesCount(true, 0)) inventorySlots = onlinePlayers.size() - playerCount;
             for(int i = 0; i < inventorySlots; i++){
                 playersInCurrentPage.add(onlinePlayers.get(playerCount));
                 playerCount++;
@@ -44,10 +44,10 @@ public class MenuCreator {
                 newPage.setItem(menuSlot, playerHead);
                 menuSlot++;
             }
-            if(getPagesCount() > 0){
+            if(getPagesCount(true, 0) > 0){
                 if(pageNumber == 0){
                     newPage.setItem(23, MenuItems.getInstance().getItem(Material.ARROW, "§6§lNext Page", String.valueOf((pageNumber + 1))));
-                }else if(pageNumber == getPagesCount()){
+                }else if(pageNumber == getPagesCount(true, 0)){
                     newPage.setItem(21, MenuItems.getInstance().getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
                 }else{
                     newPage.setItem(23, MenuItems.getInstance().getItem(Material.ARROW, "§6§lNext Page", String.valueOf(pageNumber + 1)));
@@ -63,23 +63,33 @@ public class MenuCreator {
 
     public List<Inventory> getPagesOffline() {
         List<Inventory> topLuckPages = new LinkedList<>();
-        List<OfflinePlayer> offPlayers = Arrays.stream(Bukkit.getOfflinePlayers()).toList();
+        //List<OfflinePlayer> offPlayers = Arrays.stream(Bukkit.getOfflinePlayers()).toList();
         List<OfflinePlayer> offlinePlayers = new LinkedList<>();
 
-        for(OfflinePlayer off : offPlayers) {
-            if(PlayerData.getInstance().hasData(off)) offlinePlayers.add(off);
+        //for(OfflinePlayer off : offPlayers) {
+            //if(PlayerData.getInstance().hasData(off)) offlinePlayers.add(off);
+        //}
+
+        for(File dataFile : PlayerData.getInstance().getAllDataFiles()) {
+            if(dataFile.getName().contains(".yml")) {
+                UUID uuid = UUID.fromString(dataFile.getName().replace(".yml", ""));
+                OfflinePlayer off = Bukkit.getOfflinePlayer(uuid);
+                if (!off.isOnline()) {
+                    offlinePlayers.add(off);
+                }
+            }
         }
 
         int playerCount = 0;
         int inventorySlots = 18;
 
-        for(int pageNumber = 0; pageNumber <= getPagesCount(); pageNumber++) {
+        for(int pageNumber = 0; pageNumber <= getPagesCount(false, offlinePlayers.size()); pageNumber++) {
             Inventory newPage;
             if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
                 newPage = Bukkit.createInventory(null, 27, topluckColor + "§lHidden Name §f- §d§lCoco Lennon"); }
             else { newPage = Bukkit.createInventory(null, 27, topluckColor + "§lTop Luck §f- §d§lCoco Lennon"); }
             List<OfflinePlayer> playersInCurrentPage = new LinkedList<>();
-            if(pageNumber == getPagesCount()) inventorySlots = offlinePlayers.size() - playerCount;
+            if(pageNumber == getPagesCount(false, offlinePlayers.size())) inventorySlots = offlinePlayers.size() - playerCount;
             for(int i = 0; i < inventorySlots; i++){
                 playersInCurrentPage.add(offlinePlayers.get(playerCount));
                 playerCount++;
@@ -90,10 +100,10 @@ public class MenuCreator {
                 newPage.setItem(menuSlot, playerHead);
                 menuSlot++;
             }
-            if(getPagesCount() > 0){
+            if(getPagesCount(false, offlinePlayers.size()) > 0){
                 if(pageNumber == 0){
                     newPage.setItem(23, MenuItems.getInstance().getItem(Material.ARROW, "§6§lNext Page", String.valueOf((pageNumber + 1))));
-                }else if(pageNumber == getPagesCount()){
+                }else if(pageNumber == getPagesCount(false, offlinePlayers.size())){
                     newPage.setItem(21, MenuItems.getInstance().getItem(Material.ARROW, "§6§lPrevious Page", String.valueOf(pageNumber - 1)));
                 }else{
                     newPage.setItem(23, MenuItems.getInstance().getItem(Material.ARROW, "§6§lNext Page", String.valueOf(pageNumber + 1)));
@@ -121,8 +131,9 @@ public class MenuCreator {
         return optionsMenu;
     }
 
-    private int getPagesCount() {
-        return Bukkit.getOnlinePlayers().size() / 18;
+    private int getPagesCount(boolean isOnline, int listSize) {
+        if(isOnline) { return Bukkit.getOnlinePlayers().size() / 18; }
+        else { return listSize / 18; }
     }
 
     private ItemStack getPlayerHeadWithStats(Player player) {
