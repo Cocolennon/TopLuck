@@ -1,6 +1,5 @@
 package me.cocolennon.topluck.util;
 
-import com.google.common.io.Files;
 import me.cocolennon.topluck.Main;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -12,7 +11,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.*;
 
@@ -63,12 +61,7 @@ public class MenuCreator {
 
     public List<Inventory> getPagesOffline() {
         List<Inventory> topLuckPages = new LinkedList<>();
-        //List<OfflinePlayer> offPlayers = Arrays.stream(Bukkit.getOfflinePlayers()).toList();
         List<OfflinePlayer> offlinePlayers = new LinkedList<>();
-
-        //for(OfflinePlayer off : offPlayers) {
-            //if(PlayerData.getInstance().hasData(off)) offlinePlayers.add(off);
-        //}
 
         for(File dataFile : PlayerData.getInstance().getAllDataFiles()) {
             if(dataFile.getName().contains(".yml")) {
