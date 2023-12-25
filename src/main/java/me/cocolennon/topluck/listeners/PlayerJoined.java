@@ -16,7 +16,7 @@ public class PlayerJoined implements Listener {
         Player player = event.getPlayer();
         if(!player.isOp()) return;
         if(Main.getInstance().getUsingOldVersion()) {
-            player.sendMessage(topluckColor + "[Top Luck]" + successColor + "You are using an older version of Top Luck, please update to version " + Main.getInstance().getLatestVersion());
+            player.sendMessage(topluckColor + "[Top Luck]" + successColor + " You are using an older version of Top Luck, please update to version " + Main.getInstance().getLatestVersion());
         }
     }
 }
