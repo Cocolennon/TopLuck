@@ -5,12 +5,14 @@ import me.cocolennon.topluck.util.MenuCreator;
 import me.cocolennon.topluck.util.PlayerData;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -36,6 +38,7 @@ public class InventoryClick implements Listener {
         ItemStack current = event.getCurrentItem();
 
         if(!player.hasPermission("topluck.invsee.move")) {
+            if(!inv.getHolder().getClass().getName().equals(InventoryHolder.class.getName())) return;
             Player holder = (Player) inv.getHolder();
             if(inv.getType() == InventoryType.PLAYER || inv.getType() == InventoryType.ENDER_CHEST) {
                 if(holder.getUniqueId() != player.getUniqueId()) event.setCancelled(true);
@@ -60,6 +63,7 @@ public class InventoryClick implements Listener {
             }
         }else if(currentLName.startsWith("playerHead") && inv.getItem(0).getItemMeta().getLocalizedName().startsWith("playerHead")){
             Player target = Bukkit.getPlayer(currentLName.replace("playerHead_", ""));
+            if(target == null) return;
             player.openInventory(MenuCreator.getInstance().getOptionsMenu(target));
         }else if(currentLName.equals("offlinePlayers")){
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOffline());
