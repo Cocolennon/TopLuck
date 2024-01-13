@@ -36,8 +36,9 @@ public class InventoryClick implements Listener {
         ItemStack current = event.getCurrentItem();
 
         if(!player.hasPermission("topluck.invsee.move")) {
+            Player holder = (Player) inv.getHolder();
             if(inv.getType() == InventoryType.PLAYER || inv.getType() == InventoryType.ENDER_CHEST) {
-                event.setCancelled(true);
+                if(holder.getUniqueId() != player.getUniqueId()) event.setCancelled(true);
             }
         }
         if(inv.getItem(0) == null) return;
