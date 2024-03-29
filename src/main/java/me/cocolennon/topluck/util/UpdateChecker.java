@@ -1,6 +1,5 @@
 package me.cocolennon.topluck.util;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
