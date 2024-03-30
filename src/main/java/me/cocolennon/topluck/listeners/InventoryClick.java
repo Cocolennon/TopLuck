@@ -38,8 +38,8 @@ public class InventoryClick implements Listener {
         if(!player.hasPermission("topluck.invsee.move")) {
             try {
                 Player holder = (Player) inv.getHolder();
-                if(holder == null) return;
                 if(inv.getType() == InventoryType.PLAYER || inv.getType() == InventoryType.ENDER_CHEST) {
+                    if(holder == null) return;
                     if(holder.getUniqueId() != player.getUniqueId()) event.setCancelled(true);
                 }
             }catch(ClassCastException err) {
