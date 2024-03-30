@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -89,14 +88,14 @@ public class PlayerData {
             }
         }
 
-        if(data.equals("warns")) {
-            int totalBlocksMined = playerData.getInt("totalBlocksMined");
-            playerData.set("totalBlocksMined", totalBlocksMined + 1);
-        }
-
         if(data != null) {
             int dataValue = playerData.getInt(data.toLowerCase());
             playerData.set(data.toLowerCase(), dataValue + 1);
+        }
+
+        if(data.equals("warns")) {
+            int totalBlocksMined = playerData.getInt("totalBlocksMined");
+            playerData.set("totalBlocksMined", totalBlocksMined + 1);
         }
 
         try {
