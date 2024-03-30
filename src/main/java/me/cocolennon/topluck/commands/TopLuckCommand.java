@@ -2,11 +2,13 @@ package me.cocolennon.topluck.commands;
 
 import me.cocolennon.topluck.Main;
 import me.cocolennon.topluck.util.MenuCreator;
+import me.cocolennon.topluck.util.PlayerData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +25,7 @@ public class TopLuckCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(!(sender instanceof Player)) return false;
+        if(!(sender instanceof Player player)) return false;
         if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
             error = topluckColor + "[Hidden Name]" + errorColor + "You can't do that!"; }
         else { error = topluckColor + "[Top Luck]" + errorColor + "You can't do that!"; }
