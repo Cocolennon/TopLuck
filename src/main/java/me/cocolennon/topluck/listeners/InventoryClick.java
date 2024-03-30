@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -36,11 +37,14 @@ public class InventoryClick implements Listener {
         ItemStack current = event.getCurrentItem();
 
         if(!player.hasPermission("topluck.invsee.move")) {
-            Player holder = (Player) inv.getHolder();
-            if(holder == null) return;
-            if(holder.getClass().getName().equals("ShopInventoryHolder")) return;
-            if(inv.getType() == InventoryType.PLAYER || inv.getType() == InventoryType.ENDER_CHEST) {
-                if(holder.getUniqueId() != player.getUniqueId()) event.setCancelled(true);
+            try {
+                Player holder = (Player) inv.getHolder();
+                if(holder == null) return;
+                if(inv.getType() == InventoryType.PLAYER || inv.getType() == InventoryType.ENDER_CHEST) {
+                    if(holder.getUniqueId() != player.getUniqueId()) event.setCancelled(true);
+                }
+            }catch(ClassCastException err) {
+                // do nothing lol!
             }
         }
         if(inv.getItem(0) == null) return;
