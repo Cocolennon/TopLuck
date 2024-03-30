@@ -5,6 +5,7 @@ import me.cocolennon.topluck.util.MenuCreator;
 import me.cocolennon.topluck.util.PlayerData;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class InventoryClick implements Listener {
     private final String topluckColor = Main.getInstance().getConfig().getString("plugin-name-color");
@@ -65,8 +67,10 @@ public class InventoryClick implements Listener {
             }
         }else if(currentLName.startsWith("playerHead") && inv.getItem(0).getItemMeta().getLocalizedName().startsWith("playerHead")){
             Player target = Bukkit.getPlayer(currentLName.replace("playerHead_", ""));
-            if(target == null) return;
-            player.openInventory(MenuCreator.getInstance().getOptionsMenu(target));
+            if(target == null) {
+                OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(currentLName.replace("playerHead_", "")));
+                player.openInventory(MenuCreator.getInstance().getOptionsMenu(offTarget));
+            }else player.openInventory(MenuCreator.getInstance().getOptionsMenu(target));
         }else if(currentLName.equals("offlinePlayers")){
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOffline());
             player.openInventory(inventories.get(0));
@@ -79,15 +83,27 @@ public class InventoryClick implements Listener {
                     player.sendMessage(error);
                     return;
                 }
-                Player target = Bukkit.getPlayer(currentLName.replace("invsee_", ""));
-                player.openInventory(target.getInventory());
+                String playerName = currentLName.replace("invsee_", "");
+                if(playerName.startsWith("off_")) {
+                    OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(playerName.replace("off_", "")));
+                    player.openInventory(PlayerData.getInstance().getPlayerInventory(offTarget));
+                }else{
+                    Player target = Bukkit.getPlayer(playerName);
+                    player.openInventory(target.getInventory());
+                }
             }else if(currentLName.startsWith("ecsee_")){
                 if(!player.hasPermission("topluck.invsee")) {
                     player.sendMessage(error);
                     return;
                 }
-                Player target = Bukkit.getPlayer(currentLName.replace("ecsee_", ""));
-                player.openInventory(target.getEnderChest());
+                String playerName = currentLName.replace("ecsee_", "");
+                if(playerName.startsWith("off_")) {
+                    OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(playerName.replace("off_", "")));
+                    player.openInventory(PlayerData.getInstance().getPlayerEnderChest(offTarget));
+                }else {
+                    Player target = Bukkit.getPlayer(playerName);
+                    player.openInventory(target.getEnderChest());
+                }
             }else if(currentLName.startsWith("warn_")) {
                 String newLName = currentLName.replace("warn_", "");
                 if(newLName.startsWith("pb_")) {
@@ -95,19 +111,34 @@ public class InventoryClick implements Listener {
                         player.sendMessage(error);
                         return;
                     }
-                    Player target = Bukkit.getPlayer(newLName.replace("pb_", ""));
-                    PlayerData.getInstance().addPlayerData(target, "warns");
-                    Bukkit.broadcastMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-public"), target.getName(), player.getName()));
-                    player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor + "You have publicly warned " + target.getName() + "!");
+                    String playerName = newLName.replace("pb_", "");
+                    if(playerName.startsWith("off_")) {
+                        OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(playerName.replace("off_", "")));
+                        PlayerData.getInstance().addPlayerData(offTarget, "warns");
+                        Bukkit.broadcastMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-public"), offTarget.getName(), player.getName()));
+                        player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor + "You have publicly warned " + offTarget.getName() + "!");
+                    }else{
+                        Player target = Bukkit.getPlayer(playerName);
+                        PlayerData.getInstance().addPlayerData(target, "warns");
+                        Bukkit.broadcastMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-public"), target.getName(), player.getName()));
+                        player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor + "You have publicly warned " + target.getName() + "!");
+                    }
                 }else if(newLName.startsWith("pv_")) {
                     if(!player.hasPermission("topluck.warn.private")) {
                         player.sendMessage(error);
                         return;
                     }
-                    Player target = Bukkit.getPlayer(newLName.replace("pv_", ""));
-                    PlayerData.getInstance().addPlayerData(target, "warns");
-                    target.sendMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-private"), player.getName()));
-                    player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor +"§dYou have privately warned " + target.getName() + "!");
+                    String playerName = newLName.replace("pv_", "");
+                    if(playerName.startsWith("off_")) {
+                        OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(playerName.replace("off_", "")));
+                        PlayerData.getInstance().addPlayerData(offTarget, "warns");
+                        player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor +"§dYou have privately warned " + offTarget.getName() + "!");
+                    }else{
+                        Player target = Bukkit.getPlayer(newLName.replace("pv_", ""));
+                        PlayerData.getInstance().addPlayerData(target, "warns");
+                        target.sendMessage(String.format(topluckColor + "[" + pluginName + "] " + errorColor + Main.getInstance().getConfig().getString("warn-message-private"), player.getName()));
+                        player.sendMessage(topluckColor + "[" + pluginName + "] " + successColor +"§dYou have privately warned " + target.getName() + "!");
+                    }
                 }
             }
         }
