@@ -86,7 +86,12 @@ public class InventoryClick implements Listener {
                 String playerName = currentLName.replace("invsee_", "");
                 if(playerName.startsWith("off_")) {
                     OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(playerName.replace("off_", "")));
-                    player.openInventory(PlayerData.getInstance().getPlayerInventory(offTarget));
+                    Inventory inventory = PlayerData.getInstance().getPlayerInventory(offTarget);
+                    if(inventory == null) {
+                        player.sendMessage(topluckColor + "[" + pluginName + "] " + errorColor + "This player's inventory is not cached!");
+                        return;
+                    }
+                    player.openInventory(inventory);
                 }else{
                     Player target = Bukkit.getPlayer(playerName);
                     player.openInventory(target.getInventory());
@@ -99,7 +104,12 @@ public class InventoryClick implements Listener {
                 String playerName = currentLName.replace("ecsee_", "");
                 if(playerName.startsWith("off_")) {
                     OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(playerName.replace("off_", "")));
-                    player.openInventory(PlayerData.getInstance().getPlayerEnderChest(offTarget));
+                    Inventory enderChest = PlayerData.getInstance().getPlayerEnderChest(offTarget);
+                    if(enderChest == null) {
+                        player.sendMessage(topluckColor + "[" + pluginName + "] " + errorColor + "This player's enderchest is not cached!");
+                        return;
+                    }
+                    player.openInventory(enderChest);
                 }else {
                     Player target = Bukkit.getPlayer(playerName);
                     player.openInventory(target.getEnderChest());
