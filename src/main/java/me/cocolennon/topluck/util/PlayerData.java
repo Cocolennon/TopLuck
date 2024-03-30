@@ -89,8 +89,10 @@ public class PlayerData {
             }
         }
 
-        int totalBlocksMined = playerData.getInt("totalBlocksMined");
-        playerData.set("totalBlocksMined", totalBlocksMined+1);
+        if(data != "warns") {
+            int totalBlocksMined = playerData.getInt("totalBlocksMined");
+            playerData.set("totalBlocksMined", totalBlocksMined + 1);
+        }
 
         if(data != null) {
             int dataValue = playerData.getInt(data.toLowerCase());
