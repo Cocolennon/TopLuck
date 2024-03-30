@@ -89,7 +89,7 @@ public class MenuCreator {
             }
             int menuSlot = 0;
             for (OfflinePlayer player : playersInCurrentPage) {
-                ItemStack playerHead = getPlayerHeadWithStats(player);
+                ItemStack playerHead = getPlayerHeadWithStats(player, player.getUniqueId());
                 newPage.setItem(menuSlot, playerHead);
                 menuSlot++;
             }
@@ -129,11 +129,11 @@ public class MenuCreator {
         if(Main.getInstance().getConfig().getBoolean("hide-plugin-name")) {
             optionsMenu = Bukkit.createInventory(null, 27, "§a§l" + target.getName() + "§f - §c§lHidden Name"); }
         else { optionsMenu = Bukkit.createInventory(null, 27, "§a§l" + target.getName() + "§f - §c§lTop Luck"); }
-        optionsMenu.setItem(9, getPlayerHeadWithStats(target));
-        optionsMenu.setItem(11, MenuItems.getInstance().getItem(Material.CHEST, "§c§lInvSee", "invsee_" + target.getName()));
-        optionsMenu.setItem(12, MenuItems.getInstance().getItem(Material.ENDER_CHEST, "§c§lInvSee (Ender Chest)", "ecsee_" + target.getName()));
-        optionsMenu.setItem(14, MenuItems.getInstance().getItem(Material.TORCH, "§c§lWarn Publicly", "warn_pb_" + target.getName()));
-        optionsMenu.setItem(16, MenuItems.getInstance().getItem(Material.REDSTONE_TORCH, "§c§lWarn Privately", "warn_pv_" + target.getName()));
+        optionsMenu.setItem(9, getPlayerHeadWithStats(target, target.getUniqueId()));
+        optionsMenu.setItem(11, MenuItems.getInstance().getItem(Material.CHEST, "§c§lInvSee", "invsee_off_" + target.getUniqueId()));
+        optionsMenu.setItem(12, MenuItems.getInstance().getItem(Material.ENDER_CHEST, "§c§lInvSee (Ender Chest)", "ecsee_off_" + target.getUniqueId()));
+        optionsMenu.setItem(14, MenuItems.getInstance().getItem(Material.TORCH, "§c§lWarn Publicly", "warn_pb_off_" + target.getUniqueId()));
+        optionsMenu.setItem(16, MenuItems.getInstance().getItem(Material.REDSTONE_TORCH, "§c§lWarn Privately", "warn_pv_off_" + target.getUniqueId()));
         MenuItems.getInstance().fillEmpty(optionsMenu, 0, MenuItems.getInstance().getItem(Material.BLACK_STAINED_GLASS_PANE, " ", "filler"));
         return optionsMenu;
     }
@@ -170,8 +170,8 @@ public class MenuCreator {
         return playerHead;
     }
 
-    private ItemStack getPlayerHeadWithStats(OfflinePlayer player) {
-        ItemStack playerHead = PlayerHead.getInstance().returnHead(player);
+    private ItemStack getPlayerHeadWithStats(OfflinePlayer player, UUID uuid) {
+        ItemStack playerHead = PlayerHead.getInstance().returnHead(player, uuid);
         ItemMeta headMeta = playerHead.getItemMeta();
         FileConfiguration config = Main.getInstance().getConfig();
         FileConfiguration playerData = PlayerData.getInstance().getPlayerData(player);
