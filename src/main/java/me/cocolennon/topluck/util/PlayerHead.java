@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.util.UUID;
+
 public class PlayerHead {
     private final static PlayerHead instance = new PlayerHead();
 
@@ -20,11 +22,11 @@ public class PlayerHead {
         return head;
     }
 
-    public final ItemStack returnHead(OfflinePlayer p) {
+    public final ItemStack returnHead(OfflinePlayer p, UUID uuid) {
         ItemStack head = getHead(p);
         ItemMeta headMeta = head.getItemMeta();
         headMeta.setDisplayName("§a" + p.getName());
-        headMeta.setLocalizedName("playerHead_" + p.getName());
+        headMeta.setLocalizedName("playerHead_" + uuid);
         head.setItemMeta(headMeta);
         return head;
     }
