@@ -88,12 +88,10 @@ public class PlayerData {
             }
         }
 
-        if(data != null) {
+        if(data != null && !data.equals("total")) {
             int dataValue = playerData.getInt(data.toLowerCase());
             playerData.set(data.toLowerCase(), dataValue + 1);
-        }
-
-        if(!data.equals("warns")) {
+        }else{
             int totalBlocksMined = playerData.getInt("totalBlocksMined");
             playerData.set("totalBlocksMined", totalBlocksMined + 1);
         }

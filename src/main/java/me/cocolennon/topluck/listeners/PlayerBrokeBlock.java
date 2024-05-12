@@ -25,6 +25,6 @@ public class PlayerBrokeBlock implements Listener {
 
         if(blocksToCheck.contains(block.getType().name())) {
             PlayerData.getInstance().addPlayerData(player, block.getType().name());
-        }else{PlayerData.getInstance().addPlayerData(player, null);}
+        }else{PlayerData.getInstance().addPlayerData(player, "total");}
     }
 }
