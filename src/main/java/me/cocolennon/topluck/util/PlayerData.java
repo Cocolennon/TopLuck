@@ -93,11 +93,9 @@ public class PlayerData {
             playerData.set(data.toLowerCase(), dataValue + 1);
         }
 
-        if(data != null) {
-            if (data.equals("warns")) {
-                int totalBlocksMined = playerData.getInt("totalBlocksMined");
-                playerData.set("totalBlocksMined", totalBlocksMined + 1);
-            }
+        if(!data.equals("warns")) {
+            int totalBlocksMined = playerData.getInt("totalBlocksMined");
+            playerData.set("totalBlocksMined", totalBlocksMined + 1);
         }
 
         try {
