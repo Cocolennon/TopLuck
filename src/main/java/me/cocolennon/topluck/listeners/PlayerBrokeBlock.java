@@ -18,7 +18,7 @@ public class PlayerBrokeBlock implements Listener {
     public void onBlockBroken(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        if(block.hasMetadata("player-placed") && block.getMetadata("player-placed").get(0).asBoolean()) return;
+        if(block.hasMetadata("player-placed") && block.getMetadata("player-placed").getFirst().asBoolean()) return;
         FileConfiguration config = mainInstance.getConfig();
 
         List<String> blocksToCheck = config.getStringList("blocks-to-check");
