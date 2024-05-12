@@ -63,7 +63,6 @@ public class InventoryClick implements Listener {
         String currentDName = getItemMeta(current).getDisplayName();
         String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
 
-        Main.getInstance().getLogger().info("first action check reached");
         if(StringUtils.isNumeric(currentLName)) {
             if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page")){
                 if(inv.getItem(18).getItemMeta().getDisplayName().equals("§c§lGo Back")) {
@@ -82,7 +81,6 @@ public class InventoryClick implements Listener {
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOffline());
             player.openInventory(inventories.getFirst());
         }else if(currentLName.equals("goBack")){
-            Main.getInstance().getLogger().info("go back reached");
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOnline());
             player.openInventory(inventories.getFirst());
         }else if(inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING).equals("filler")){
