@@ -53,7 +53,7 @@ public class InventoryClick implements Listener {
         }
 
         NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
-        if(!inv.getItem(18).getItemMeta().getPersistentDataContainer().has(buttonAction)) return;
+        if(inv.getItem(18) == null || !inv.getItem(18).getItemMeta().getPersistentDataContainer().has(buttonAction)) return;
         if(current == null) return;
         if(!current.hasItemMeta()) return;
         PersistentDataContainer pdc = getItemMeta(current).getPersistentDataContainer();
