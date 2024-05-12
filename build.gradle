@@ -17,6 +17,6 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.5'
 }
 
-sourceCompatibility = targetCompatibility = '16'
+sourceCompatibility = targetCompatibility = '21'
 compileJava.options.encoding = 'UTF-8'
 setLibsDirName('../builds')
