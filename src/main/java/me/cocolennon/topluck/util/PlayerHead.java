@@ -2,11 +2,14 @@ package me.cocolennon.topluck.util;
 
 import me.cocolennon.topluck.Main;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.UUID;
 
@@ -17,7 +20,9 @@ public class PlayerHead {
         ItemStack head = getHead(p);
         ItemMeta headMeta = head.getItemMeta();
         headMeta.setDisplayName("§a" + p.getName());
-        headMeta.setLocalizedName("playerHead_" + p.getName());
+        PersistentDataContainer pdc = headMeta.getPersistentDataContainer();
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        pdc.set(buttonAction, PersistentDataType.STRING, "playerHead_" + p.getName());
         head.setItemMeta(headMeta);
         return head;
     }
@@ -26,7 +31,9 @@ public class PlayerHead {
         ItemStack head = getHead(p);
         ItemMeta headMeta = head.getItemMeta();
         headMeta.setDisplayName("§a" + p.getName());
-        headMeta.setLocalizedName("playerHead_" + uuid);
+        PersistentDataContainer pdc = headMeta.getPersistentDataContainer();
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        pdc.set(buttonAction, PersistentDataType.STRING, "playerHead_" + uuid);
         head.setItemMeta(headMeta);
         return head;
     }
