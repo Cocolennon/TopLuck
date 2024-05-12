@@ -28,9 +28,8 @@ public class TopLuckCommand implements TabExecutor {
             error = topluckColor + "[Hidden Name]" + errorColor + "You can't do that!"; }
         else { error = topluckColor + "[Top Luck]" + errorColor + "You can't do that!"; }
 
-        if(args.length == 0) return openMenu(sender);
+        if(args.length == 0 || args[0].equals("menu")) return openMenu(sender);
         return switch (args[0]) {
-            case "menu" -> openMenu(sender);
             case "info" -> sendInfo(sender);
             case "reload" -> reloadConfig(sender);
             default -> openMenu(sender);
