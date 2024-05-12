@@ -51,10 +51,11 @@ public class InventoryClick implements Listener {
                 // do nothing lol!
             }
         }
-        if(inv.getItem(0) == null) return;
+
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        if(!inv.getItem(18).getItemMeta().getPersistentDataContainer().has(buttonAction)) return;
         if(current == null) return;
         if(!current.hasItemMeta()) return;
-        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
         PersistentDataContainer pdc = getItemMeta(current).getPersistentDataContainer();
         if(!pdc.has(buttonAction)) return;
 
@@ -62,6 +63,7 @@ public class InventoryClick implements Listener {
         String currentDName = getItemMeta(current).getDisplayName();
         String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
 
+        Main.getInstance().getLogger().info("first action check reached");
         if(StringUtils.isNumeric(currentLName)) {
             if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page")){
                 if(inv.getItem(18).getItemMeta().getDisplayName().equals("§c§lGo Back")) {
@@ -78,10 +80,11 @@ public class InventoryClick implements Listener {
             }else player.openInventory(MenuCreator.getInstance().getOptionsMenu(target));
         }else if(currentLName.equals("offlinePlayers")){
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOffline());
-            player.openInventory(inventories.get(0));
+            player.openInventory(inventories.getFirst());
         }else if(currentLName.equals("goBack")){
+            Main.getInstance().getLogger().info("go back reached");
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOnline());
-            player.openInventory(inventories.get(0));
+            player.openInventory(inventories.getFirst());
         }else if(inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING).equals("filler")){
             if(currentLName.startsWith("invsee_")) {
                 if(!player.hasPermission("topluck.invsee")) {
