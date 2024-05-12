@@ -5,6 +5,7 @@ import me.cocolennon.topluck.util.MenuCreator;
 import me.cocolennon.topluck.util.PlayerData;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
@@ -51,11 +54,13 @@ public class InventoryClick implements Listener {
         if(inv.getItem(0) == null) return;
         if(current == null) return;
         if(!current.hasItemMeta()) return;
-        if(!getItemMeta(current).hasLocalizedName()) return;
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        PersistentDataContainer pdc = getItemMeta(current).getPersistentDataContainer();
+        if(!pdc.has(buttonAction)) return;
 
         event.setCancelled(true);
         String currentDName = getItemMeta(current).getDisplayName();
-        String currentLName = getItemMeta(current).getLocalizedName();
+        String currentLName = pdc.get(buttonAction, PersistentDataType.STRING);
 
         if(StringUtils.isNumeric(currentLName)) {
             if(currentDName.equals("§6§lNext Page") || currentDName.equals("§6§lPrevious Page")){
@@ -65,7 +70,7 @@ public class InventoryClick implements Listener {
                     player.openInventory(MenuCreator.getInstance().getPagesOnline().get(Integer.parseInt(currentLName)));
                 }
             }
-        }else if(currentLName.startsWith("playerHead") && inv.getItem(0).getItemMeta().getLocalizedName().startsWith("playerHead")){
+        }else if(currentLName.startsWith("playerHead") && inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING).startsWith("playerHead")){
             Player target = Bukkit.getPlayer(currentLName.replace("playerHead_", ""));
             if(target == null) {
                 OfflinePlayer offTarget = Bukkit.getOfflinePlayer(UUID.fromString(currentLName.replace("playerHead_", "")));
@@ -77,7 +82,7 @@ public class InventoryClick implements Listener {
         }else if(currentLName.equals("goBack")){
             List<Inventory> inventories = new LinkedList<>(MenuCreator.getInstance().getPagesOnline());
             player.openInventory(inventories.get(0));
-        }else if(inv.getItem(0).getItemMeta().getLocalizedName().equals("filler")){
+        }else if(inv.getItem(0).getItemMeta().getPersistentDataContainer().get(buttonAction, PersistentDataType.STRING).equals("filler")){
             if(currentLName.startsWith("invsee_")) {
                 if(!player.hasPermission("topluck.invsee")) {
                     player.sendMessage(error);
