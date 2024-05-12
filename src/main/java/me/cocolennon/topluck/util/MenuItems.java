@@ -1,9 +1,13 @@
 package me.cocolennon.topluck.util;
 
+import me.cocolennon.topluck.Main;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 
@@ -15,7 +19,9 @@ public class MenuItems {
         ItemMeta itM = it.getItemMeta();
         assert itM != null;
         if(newName != null) itM.setDisplayName(newName);
-        if(localizedName != null) itM.setLocalizedName(localizedName);
+        PersistentDataContainer pdc = itM.getPersistentDataContainer();
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        if(localizedName != null) pdc.set(buttonAction, PersistentDataType.STRING, localizedName);
         it.setItemMeta(itM);
         return it;
     }
@@ -25,7 +31,9 @@ public class MenuItems {
         ItemMeta itM = it.getItemMeta();
         assert itM != null;
         if(newName != null) itM.setDisplayName(newName);
-        if(localizedName != null) itM.setLocalizedName(localizedName);
+        PersistentDataContainer pdc = itM.getPersistentDataContainer();
+        NamespacedKey buttonAction = new NamespacedKey(Main.getInstance(), "buttonAction");
+        if(localizedName != null) pdc.set(buttonAction, PersistentDataType.STRING, localizedName);
         if(itemlore != null) itM.setLore(itemlore);
         it.setItemMeta(itM);
         return it;
